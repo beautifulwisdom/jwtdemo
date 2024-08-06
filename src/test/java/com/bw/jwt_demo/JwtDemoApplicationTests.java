@@ -1,4 +1,4 @@
-package ai.buddi.gnana.jwt_demo;
+package com.bw.jwt_demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
