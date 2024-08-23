@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+// Standard implementation
+// To generate, validate and check expiry of JWT Token
+
 @Component
 public class JwtUtil {
 

@@ -15,7 +15,7 @@ public class RoleEntity {
 
     private String roleName;
 
-    @JsonBackReference
+    @JsonBackReference //helps avoid circular dependency in bidirectional mapping
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
                 mappedBy = "roles")
     private Set<UserEntity> users = new HashSet<>();

@@ -36,6 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         BeanUtils.copyProperties(userModel, userEntity); // copyProperties doesn't do deep copy. It doesn't copy collections
 
         Set<RoleEntity> roleEntities = new HashSet<>();
+        //fetch every role from the DB based on role id and than set this role to user entity roles
         for(RoleModel rm : userModel.getRoles()) {
             Optional<RoleEntity> optRe = roleRepository.findById(rm.getId());
             if (optRe.isPresent()) {
@@ -48,6 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         userEntity = userRepository.save(userEntity);
         BeanUtils.copyProperties(userEntity, userModel);
 
+        //convert RoleEntities to RoleModels
         Set<RoleModel> roleModels = new HashSet<>();
         RoleModel roleModel = null;
         for(RoleEntity re : userEntity.getRoles()) {
@@ -61,6 +63,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userModel;
     }
 
+    //validation for user existence
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
@@ -70,6 +73,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             UserModel userModel = new UserModel();
             BeanUtils.copyProperties(userEntity, userModel);
 
+            //convert RoleEntities to RoleModels
             Set<RoleModel> roleModels = new HashSet<>();
             RoleModel roleModel = null;
             for(RoleEntity re : userEntity.getRoles()) {

@@ -26,6 +26,17 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class JwtConfig {
 
+    private static final String[] WHITELIST = {
+            "/api/login",
+            "/h2-console/**",
+            "/api/register",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-resources",
+            "/swagger-ui.html"
+    };
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -41,8 +52,7 @@ public class JwtConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/login",
-                                "/h2-console/**", "/api/register").permitAll()
+                        .requestMatchers(WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
